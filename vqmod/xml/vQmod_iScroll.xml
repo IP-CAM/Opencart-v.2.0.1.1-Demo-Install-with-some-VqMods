@@ -1,0 +1,230 @@
+<modification>
+
+	<id>iScroll for Opencart</id>
+	<version>2.1</version>
+	<vqmver>2.3.2</vqmver>
+	<author>Mircea - www.mndev.net</author>
+	
+	<file name="catalog/view/theme/default/template/product/category.tpl">
+		<operation>
+			<search position="replace"><![CDATA[<div>]]></search>
+			<add><![CDATA[
+				<div class="struct">
+			]]></add>
+		</operation>
+	</file>
+	
+	<file name="catalog/view/theme/default/template/product/search.tpl">
+		<operation>
+			<search position="replace"><![CDATA[<div>]]></search>
+			<add><![CDATA[
+				<div class="struct">
+			]]></add>
+		</operation>
+	</file>	
+	
+	<file name="catalog/view/theme/default/template/product/manufacturer_info.tpl">
+		<operation>
+			<search position="replace"><![CDATA[<div>]]></search>
+			<add><![CDATA[
+				<div class="struct">
+			]]></add>
+		</operation>
+	</file>	
+	
+	<file name="catalog/view/theme/default/template/product/special.tpl">
+		<operation>
+			<search position="replace"><![CDATA[<div>]]></search>
+			<add><![CDATA[
+				<div class="struct">
+			]]></add>
+		</operation>
+	</file>	
+	
+	<file name="catalog/view/theme/default/template/common/header.tpl">
+	
+		<operation>
+			<search position="before"><![CDATA[</head>]]></search>
+			<add><![CDATA[
+			
+				<script type="text/javascript" src="vqmod/js/livequery.js"></script>
+				<script type="text/javascript" src="vqmod/js/infinitescroll.js"></script>
+				<script type="text/javascript" src="catalog/view/javascript/jquery/jquery.total-storage.min.js"></script>
+				<script>		
+
+					//iScroll object creation
+					function iScroll(item, links, container){
+
+						this.display_type = $.totalStorage('display');
+						
+						this.item = item;
+						this.links = links;
+						this.container = container;
+
+						if((typeof(this.item) == 'undefined') && (typeof(this.container) == 'undefined') && (typeof(this.links) == 'undefined')){
+						
+							if(this.display_type == 'grid'){
+							
+								this.item = $('.product-grid :first-child').attr('class');
+								this.links = $('.pagination :first-child').attr('class');
+								this.container = 'product-grid';
+								
+							} else {
+							
+								this.item = $('.product-list :first-child').attr('class');
+								this.links = $('.pagination :first-child').attr('class');
+								this.container = 'product-list';		
+							
+							}
+						
+						}
+						
+						//Environment update function when needed
+						this.update = update;
+						function update(iScroll){
+						
+							this.display_type = $.totalStorage('display');
+							
+							if(this.display_type == 'grid'){
+							
+								this.item = $('.product-grid :first-child').attr('class');
+								this.links = $('.pagination :first-child').attr('class');
+								this.container = 'product-grid';
+								
+								$("." + iScroll.item).each(function(){
+								
+									$(this).css('display','inline-block';
+								
+								});
+								
+							} else {
+							
+								this.item = $('.product-list :first-child').attr('class');
+								this.links = $('.pagination :first-child').attr('class');
+								this.container = 'product-list';		
+								
+								$("." + iScroll.item).each(function(){
+								
+									$(this).css('display','block';
+								
+								});
+								
+							}
+							
+						}
+						
+					}
+
+					$(document).ready(function(){
+						
+						/*
+							------------------------------------------------------------------------------------------------
+							iScroll, an extension of infiniteScroll wordpress plugin made for Opencart
+							------------------------------------------------------------------------------------------------
+						   
+							+ Var declarations
+						   
+							iScroll.display_type -> product-grid || product-list depending on user's viey choice
+							iScroll.item -> selector of each product on the layout
+							iScroll.container -> selector of the container where $items are going to be pasted
+							iScroll.links -> selector of the next product pages.
+							
+							Loader bar customization by setting the color (with hex code)
+							Defaults: colorone: '#ed3080' || colortwo: '#e6ed30'
+							
+							Scripts that form part of iScroll
+							
+							+ Livequery jQuery +
+							
+								+ Copyright (c) 2010 Brandon Aaron (http://brandonaaron.net)
+								+ Dual licensed under the MIT (MIT_LICENSE.txt)
+								+ and GPL Version 2 (GPL_LICENSE.txt) licenses.
+								+ Version: 1.1.1
+								+ Requires jQuery 1.3+
+								+ Docs: http://docs.jquery.com/Plugins/livequery
+								+ https://github.com/brandonaaron/livequery
+									
+							+ infiniteScroll +
+								
+								+ https://github.com/paulirish/infinite-scroll
+								+ version 2.0b2.120519
+								+ Copyright 2011/12 Paul Irish & Luke Shumard
+								+ Licensed under the MIT license	
+								+ Documentation: http://infinite-scroll.com/
+							
+							+ Good luck with your sales!
+							
+						*/
+						
+						//Initialize variables for work environment
+						iScroll = new iScroll();
+
+						/*
+						
+							+ For manual set of selectors edit the above constructor
+							+ Example: iScroll = new iScroll('product-selector-class', 'links-selector-class', 'container-selector-class');
+						
+						*/
+						
+						
+						//View type watcher	
+						$('.display').live("click",function(){
+							
+							iScroll.update(iScroll);
+							
+						});	
+						
+						//Sorting up not useful elements
+						$('.limit, .results').remove();
+						$('.pagination').css('z-index','-1');
+						
+						//Counting existing products on the displyed page
+						var oldcount =  $("." + iScroll.item).length;
+						
+						//infiniteScroll Core 
+						$('.' + iScroll.container).infinitescroll({
+						
+							navSelector  : ".pagination " + "." + iScroll.links,
+							nextSelector : ".pagination " + "." + iScroll.links + " a",    
+							itemSelector : "." + iScroll.item, 
+							animate: true,
+							colorone: '#ed3080',
+							colortwo: '#e6ed30'
+							
+						},function(){
+						
+							var oldcount =  $("." + iScroll.item).length;
+							
+						});
+						
+						$("." + iScroll.item).livequery(function(){
+				
+							$(this).each(function() {
+							
+								var newcount =  $("." + iScroll.item).length;
+								
+								if (newcount > oldcount) {
+									
+									$('#infscr-loading').remove();
+									
+									//New elements sort-up
+									$(this).hide().fadeIn(1000, function(){
+												
+										$('#iscroll_loader').fadeOut(250, function(){ $(this).remove(); });
+											
+									});
+									
+								}
+										
+							});
+				
+						});
+						
+					});
+				</script>
+			]]></add>
+		</operation>
+		
+	</file>
+	
+</modification>
