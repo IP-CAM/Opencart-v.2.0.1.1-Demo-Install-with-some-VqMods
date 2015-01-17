@@ -1,0 +1,29 @@
+<modification>
+        <id>Scroll Beautifully to the top on Long Pages</id>
+        <version>2.7</version>
+        <vqmver>1.0.8</vqmver>
+        <author>Chaiavi</author>
+        <file name="catalog/view/theme/*/template/common/header.tpl">
+                <operation>
+                        <search position="before">
+                        	<![CDATA[
+                        		<?php foreach ($scripts as $script)
+                        	]]>
+                        </search>
+                        
+                        <add>
+                        	<![CDATA[
+					<script type="text/javascript" src="catalog/view/javascript/jquery/dynamicdrive/scrolltopcontrol.js"></script>
+					
+					<!-- DynamicDrive License restriction
+					/***********************************************
+					* Scroll To Top Control script- &copy; Dynamic Drive DHTML code library (www.dynamicdrive.com)
+					* This notice MUST stay intact for legal use
+					* Visit Project Page at http://www.dynamicdrive.com for full source code
+					***********************************************/
+					-->
+                        	]]>
+                        </add>
+                </operation>
+        </file>
+</modification>

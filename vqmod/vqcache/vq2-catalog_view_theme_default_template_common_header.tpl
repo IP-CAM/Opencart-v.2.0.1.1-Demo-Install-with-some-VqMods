@@ -33,6 +33,19 @@
 <link href="<?php echo $style['href']; ?>" type="text/css" rel="<?php echo $style['rel']; ?>" media="<?php echo $style['media']; ?>" />
 <?php } ?>
 <script src="catalog/view/javascript/common.js" type="text/javascript"></script>
+
+                        	
+					<script type="text/javascript" src="catalog/view/javascript/jquery/dynamicdrive/scrolltopcontrol.js"></script>
+					
+					<!-- DynamicDrive License restriction
+					/***********************************************
+					* Scroll To Top Control script- &copy; Dynamic Drive DHTML code library (www.dynamicdrive.com)
+					* This notice MUST stay intact for legal use
+					* Visit Project Page at http://www.dynamicdrive.com for full source code
+					***********************************************/
+					-->
+                        	
+                        
 <?php foreach ($scripts as $script) { ?>
 <script src="<?php echo $script; ?>" type="text/javascript"></script>
 <?php } ?>
